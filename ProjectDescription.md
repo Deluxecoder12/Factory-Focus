@@ -79,4 +79,4 @@ Implement a CI/CD pipeline to automate the build, test, and deployment process f
 
 #### Consider integrating machine learning algorithms for predictive maintenance.
 
-##### This project idea provides a comprehensive use case for the technologies you mentioned. You can customize it further based on specific needs and functionalities.
+##### This project idea provides a comprehensive use case. Further customization is encouraged.

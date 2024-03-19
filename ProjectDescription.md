@@ -1,65 +1,36 @@
 
-# Smart Factory Machine Monitoring and Optimization with C#, SQL, KPI Dev, Grafana, Ignition, and CI/CD
+# Personal Laptop Performance Monitoring System with C# .NET, SQL, KPI Dev, Grafana, and GitLab CI/CD
 
 ## Project Goal: 
 
-Develop a system to monitor and optimize machine performance in a factory setting. This system will collect data from machines, store
-it in a database, generate KPIs to track performance, visualize the data in Grafana and Ignition dashboards, and implement a CI/CD
-pipeline for automated deployment.
+Simulate a real-world industrial monitoring system by developing a scaled-down version focused on your laptop's performance. This project will involve collecting data using C#, storing it in a SQL database, developing KPIs to track performance, and visualizing the data in Grafana dashboards. Additionally, explore the implementation of a CI/CD pipeline for potential future scalability.
 
 ## Technologies Used:
 
 ### C# .Net:
 
-Develop a data acquisition application to collect sensor data from machines using communication protocols like OPC UA or Modbus.
+Develop a data acquisition application using C# .NET libraries like System.ManagementObjectSearcher and PerformanceCounter to collect data on CPU usage, memory consumption, disk space, network activity, and other relevant metrics.
 
 ### SQL Database:
 
-Store the collected sensor data in a relational database like SQL Server or MySQL. Design tables to store machine information, sensor 
-data timestamps, and readings.
+Implement a local SQL database (e.g., SQL Server Express) to store the collected performance data for analysis and visualization.
 
 ### KPI Dev:
 
-Develop Key Performance Indicators (KPIs) to track machine health and performance. Examples include Overall Equipment Effectiveness
+Utilize KPI development tools to define and calculate relevant KPIs including Overall Equipment Effectiveness
 (OEE), downtime percentage, production rate, and energy consumption.
 
 ### Grafana:
 
-Create dashboards to visualize the collected data and KPIs. Use Grafana's rich features to create charts, graphs, and alerts for anomalies.
+Create dashboards to visualize the collected data and KPIs.
 
 ### Ignition SCADA:
 
-Develop an Ignition SCADA dashboard to provide a real-time view of machine status, sensor readings, and trends. Ignition's drag-and-drop interface allows for easy visualization customization.
+Develop an Ignition SCADA dashboard to provide a real-time view of machine status, sensor readings, and trends.
 
 ### CI/CD Pipeline:
 
-Implement a CI/CD pipeline using tools like Jenkins or Azure DevOps to automate the build, test, and deployment process for your C# application and Grafana dashboards. This ensures consistent and efficient updates to the system.
-
-## Project Phases:
-
-### Data Acquisition:
-
-Develop the C# application to collect sensor data from machines. Configure communication protocols and data parsing logic.
-
-### Database Design:
-
-Design and implement the SQL database schema to store machine information, sensor data, and timestamps.
-
-### KPI Development: 
-
-Develop KPIs using KPI Dev tools to track machine performance.
-
-### Grafana Dashboarding:
-
-Design dashboards in Grafana to visualize sensor data, KPIs, and trends. Utilize Grafana alerting features for anomalies.
-
-### Ignition SCADA Dashboard:
-
-Design an Ignition dashboard to display real-time machine status, sensor readings, and historical trends.
-
-### CI/CD Pipeline Implementation:
-
-Implement a CI/CD pipeline to automate the build, test, and deployment process for the C# application and Grafana dashboards.
+Implement a CI/CD pipeline using GitLab CI/CD to automate the build, test, and deployment process. 
 
 ## Benefits:
 

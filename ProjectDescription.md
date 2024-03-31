@@ -13,7 +13,7 @@ Develop a data acquisition application using C# .NET libraries like System.Manag
 
 ### SQL Database:
 
-Implement a local SQL database (e.g., SQL Server Express) to store the collected performance data for analysis and visualization.
+Implement a local SQL database to store the collected performance data for analysis and visualization.
 
 ### KPI Dev:
 

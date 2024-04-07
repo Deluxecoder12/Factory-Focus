@@ -134,7 +134,7 @@ class DataAcquisitionApp
     }
 
     static MySqlConnection GetConnection()
-        {
+    {
         string DB_SERVER = DotNetEnv.Env.GetString("DB_SERVER");
         string DB_NAME = DotNetEnv.Env.GetString("DB_NAME");
         string DB_USER = DotNetEnv.Env.GetString("DB_USER");

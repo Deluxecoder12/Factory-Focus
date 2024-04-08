@@ -26,20 +26,20 @@ Create dashboards to visualize the collected data and KPIs.
 
 ### CI/CD Pipeline
 
-Implement a CI/CD pipeline using GitLab CI/CD to automate the build, test, and deployment process. 
+Implement a CI/CD pipeline using GitLab CI/CD to automate the build, test, and deployment process.
 
 ## Benefits
 
-### Improved machine monitoring and diagnostics.
-### Data-driven insights for optimizing production processes.
-### Real-time visualization of machine health and performance.
-### Automated deployment for faster updates and reduced downtime.
+Improved machine monitoring and diagnostics.
+Data-driven insights for optimizing production processes.
+Real-time visualization of machine health and performance.
+Automated deployment for faster updates and reduced downtime.
 
 ## Additional Considerations
 
-### Implement security measures to protect the data acquisition application and database.
-### Design the system for scalability to accommodate additional machines and data sources.
-### Consider integrating machine learning algorithms for predictive maintenance.
+Implement security measures to protect the data acquisition application and database.
+Design the system for scalability to accommodate additional machines and data sources.
+Consider integrating machine learning algorithms for predictive maintenance.
 
 
-#### Further customization is encouraged.
+#### Further customization is encouraged

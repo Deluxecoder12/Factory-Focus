@@ -1,7 +1,4 @@
 #### Author: Sakar Joshi
-##### Use with credit
+##### Usage with attribution
 
-The program gets the information from your device and pushes it into a database of your choice. 
-Make sure your DB is running. Make a new <strong>server.env</strong> and include the server name, db name, user, and pwd. 
-Run the program. You can modify the code accoding to your requirements.
-
+This program retrieves information from your device and stores it in a database of your choosing. Ensure that your database is operational. Create a new `server.env` file and include the server name, database name, username, and password. Then, execute the program. You can customize the code according to your specific requirements.

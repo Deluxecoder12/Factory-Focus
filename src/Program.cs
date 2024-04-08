@@ -75,8 +75,6 @@ class DataAcquisitionApp
             Console.WriteLine("------------------------");
             Console.WriteLine("Press 'q' to exit, any other key to continue...");
 
-            
-
             // Add parameters with collected values
             insertCommand.Parameters.AddWithValue("@networkSentGB", sentGB);
             insertCommand.Parameters.AddWithValue("@networkReceivedGB", receivedGB);

@@ -1,5 +1,5 @@
 
-# Personal Laptop Performance Monitoring System with C# .NET, SQL, KPI Dev, Grafana, and GitLab CI/CD
+# Personal Laptop Performance Monitoring System with C# .NET, SQL, KPI Dev, Grafana, and GitHub Actions
 
 ## Project Goal: 
 
@@ -29,7 +29,7 @@ Develop an Ignition SCADA dashboard to provide a real-time view of machine statu
 
 ### CI/CD Pipeline:
 
-Implement a CI/CD pipeline using GitLab CI/CD to automate the build, test, and deployment process. 
+Implement a CI/CD pipeline using GitHub Actions to automate the build, test, and deployment process. 
 
 ## Benefits:
 

@@ -42,4 +42,4 @@ Design the system for scalability to accommodate additional machines and data so
 Consider integrating machine learning algorithms for predictive maintenance.
 
 
-#### Further customization is encouraged
+### Further customization is encouraged

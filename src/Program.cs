@@ -113,8 +113,7 @@ class DataAcquisitionApp
         double bytesSent = 0;
         foreach (ManagementObject obj in searcher.Get())
         {
-            bytesSent = Math.Round(Convert.ToDouble(obj["BytesSentPerSec"]) / (1024 * 1024 * 1024), 2);
-            
+            bytesSent = Math.Round(Convert.ToDouble(obj["BytesSentPerSec"]) / (1024 * 1024 * 1024), 2);  
         }
         return bytesSent;
     }

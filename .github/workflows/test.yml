@@ -27,5 +27,5 @@ jobs:
       run: dotnet restore Tests/Tests.csproj
       
     - name: Test
-      run: dotnet test --configuration Release --no-build Tests/Tests.csproj
+      run: dotnet test --configuration Release Tests/Tests.csproj
 

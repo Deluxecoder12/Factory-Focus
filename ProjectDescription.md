@@ -17,8 +17,7 @@ Implement a local SQL database to store the collected performance data for analy
 
 ### KPI Dev
 
-Utilize KPI development tools to define and calculate relevant KPIs including Overall Equipment Effectiveness
-(OEE), downtime percentage, production rate, and energy consumption.
+Utilize KPI development tools to define and calculate relevant KPI (Current battery percentage, CPU Usage, and Disk Space left) and send out alerts through SMTP.
 
 ### Grafana
 
@@ -26,7 +25,7 @@ Create dashboards to visualize the collected data and KPIs.
 
 ### CI/CD Pipeline
 
-Implement a CI/CD pipeline using GitLab CI/CD to automate the build, test, and deployment process.
+Implement a CI/CD pipeline using GitHub Actions to automate the build, test, and deployment process.
 
 ## Benefits
 

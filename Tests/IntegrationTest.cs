@@ -60,9 +60,10 @@ public class DataAcquisitionIntegrationTests
     {
         // Arrange
         var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesSentPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
-        var obj = new Mock<ManagementObject>();
-        obj.Setup(o => o["BytesSentPerSec"]).Returns(1024 * 1024 * 1024);
-        searcher.Setup(s => s.Get()).Returns(new[] { obj.Object });
+        var managementObject = new Mock<ManagementObject>();
+        managementObject.Setup(o => o["BytesSentPerSec"]).Returns(1024 * 1024 * 1024); // Mocking BytesSentPerSec value
+        var managementObjectCollection = new ManagementObjectCollection { managementObject.Object };
+        searcher.Setup(s => s.Get()).Returns(managementObjectCollection);
 
         // Act
         var networkSentGB = DataAcquisitionApp.GetNetworkSentGB();
@@ -76,9 +77,10 @@ public class DataAcquisitionIntegrationTests
     {
         // Arrange
         var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesReceivedPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
-        var obj = new Mock<ManagementObject>();
-        obj.Setup(o => o["BytesReceivedPerSec"]).Returns(1024 * 1024 * 1024);
-        searcher.Setup(s => s.Get()).Returns(new[] { obj.Object });
+        var managementObject = new Mock<ManagementObject>();
+        managementObject.Setup(o => o["BytesReceivedPerSec"]).Returns(1024 * 1024 * 1024); // Mocking BytesReceivedPerSec value
+        var managementObjectCollection = new ManagementObjectCollection { managementObject.Object };
+        searcher.Setup(s => s.Get()).Returns(managementObjectCollection);
 
         // Act
         var networkReceivedGB = DataAcquisitionApp.GetNetworkReceivedGB();

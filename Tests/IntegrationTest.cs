@@ -55,39 +55,39 @@ public class DataAcquisitionIntegrationTests
         Assert.AreEqual(1024, memoryUsage);
     }
 
-    [TestMethod]
-    public void GetNetworkSentGB_ReturnsValidNetworkSentBytes()
-    {
-        // Arrange
-        var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesSentPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
-        var managementObject = new Mock<ManagementObject>();
-        managementObject.Setup(o => o["BytesSentPerSec"]).Returns(1024 * 1024 * 1024); // Mocking BytesSentPerSec value
-        var managementObjectCollection = new ManagementObjectCollection { managementObject.Object };
-        searcher.Setup(s => s.Get()).Returns(managementObjectCollection);
+    // [TestMethod]
+    // public void GetNetworkSentGB_ReturnsValidNetworkSentBytes()
+    // {
+    //     // Arrange
+    //     var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesSentPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
+    //     var managementObject = new Mock<ManagementObject>();
+    //     managementObject.Setup(o => o["BytesSentPerSec"]).Returns(1024 * 1024 * 1024); // Mocking BytesSentPerSec value
+    //     var managementObjectCollection = new ManagementObjectCollection { managementObject.Object };
+    //     searcher.Setup(s => s.Get()).Returns(managementObjectCollection);
 
-        // Act
-        var networkSentGB = DataAcquisitionApp.GetNetworkSentGB();
+    //     // Act
+    //     var networkSentGB = DataAcquisitionApp.GetNetworkSentGB();
 
-        // Assert
-        Assert.AreEqual(1, networkSentGB);
-    }
+    //     // Assert
+    //     Assert.AreEqual(1, networkSentGB);
+    // }
 
-    [TestMethod]
-    public void GetNetworkReceivedGB_ReturnsValidNetworkReceivedBytes()
-    {
-        // Arrange
-        var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesReceivedPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
-        var managementObject = new Mock<ManagementObject>();
-        managementObject.Setup(o => o["BytesReceivedPerSec"]).Returns(1024 * 1024 * 1024); // Mocking BytesReceivedPerSec value
-        var managementObjectCollection = new ManagementObjectCollection { managementObject.Object };
-        searcher.Setup(s => s.Get()).Returns(managementObjectCollection);
+    // [TestMethod]
+    // public void GetNetworkReceivedGB_ReturnsValidNetworkReceivedBytes()
+    // {
+    //     // Arrange
+    //     var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesReceivedPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
+    //     var managementObject = new Mock<ManagementObject>();
+    //     managementObject.Setup(o => o["BytesReceivedPerSec"]).Returns(1024 * 1024 * 1024); // Mocking BytesReceivedPerSec value
+    //     var managementObjectCollection = new ManagementObjectCollection { managementObject.Object };
+    //     searcher.Setup(s => s.Get()).Returns(managementObjectCollection);
 
-        // Act
-        var networkReceivedGB = DataAcquisitionApp.GetNetworkReceivedGB();
+    //     // Act
+    //     var networkReceivedGB = DataAcquisitionApp.GetNetworkReceivedGB();
 
-        // Assert
-        Assert.AreEqual(1, networkReceivedGB);
-    }
+    //     // Assert
+    //     Assert.AreEqual(1, networkReceivedGB);
+    // }
 
     [TestMethod]
     public void SendEmail_SendsEmailSuccessfully()

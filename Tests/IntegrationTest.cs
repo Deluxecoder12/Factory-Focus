@@ -9,7 +9,7 @@ using Moq;
 using MySql.Data.MySqlClient;
 
 [TestClass]
-public class DataAcquisitionAppTests
+public class DataAcquisitionIntegrationTests
 {
     [TestMethod]
     public void GetNextSerialNumber_ReturnsNextAvailableSerialNumber()

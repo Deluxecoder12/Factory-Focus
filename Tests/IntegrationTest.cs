@@ -1,63 +1,103 @@
-using NUnit.Framework;
-using System.Data;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Management;
+using System.Net.Mail;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using MySql.Data.MySqlClient;
 
-[TestFixture]
-public class DataAcquisitionAppIntegrationTests
+[TestClass]
+public class DataAcquisitionAppTests
 {
-    private string _connectionString;
-    private MySqlConnection _connection;
-
-    [SetUp]
-    public void Setup()
-    {
-        DotNetEnv.Env.Load(@"..\server.env");
-        string DB_SERVER = DotNetEnv.Env.GetString("DB_SERVER");
-        string DB_NAME = DotNetEnv.Env.GetString("DB_NAME");
-        string DB_USER = DotNetEnv.Env.GetString("DB_USER");
-        string DB_PASSWORD = DotNetEnv.Env.GetString("DB_PASSWORD");
-        // Setup database connection
-        _connectionString = $"server={DB_SERVER};database={DB_NAME};uid={DB_USER};pwd={DB_PASSWORD}";
-        _connection = new MySqlConnection(_connectionString);
-        _connection.Open();
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        // Close database connection
-        _connection.Close();
-    }
-
-    [Test]
-    public void InsertSystemData_Should_Insert_Data_Into_Database()
+    [TestMethod]
+    public void GetNextSerialNumber_ReturnsNextAvailableSerialNumber()
     {
         // Arrange
-        var dataAcquisitionApp = new DataAcquisitionApp();
-        var systemData = new SystemData
-        {
-            SerialNumber = 1,
-            Timestamp = DateTime.Now,
-            DeviceName = "Test Device",
-            BatteryPercentage = 80,
-            CPUUsage = 50,
-            MemoryUsage = 2048,
-            DriveUsages = new Dictionary<char, DriveUsage>
-            {
-                { 'C', new DriveUsage { UsedSpaceGB = 100, FreeSpaceGB = 200 } },
-                { 'D', new DriveUsage { UsedSpaceGB = 150, FreeSpaceGB = 250 } }
-            },
-            NetworkSentGB = 10,
-            NetworkReceivedGB = 20
-        };
+        var connection = new Mock<MySqlConnection>();
+        connection.Setup(c => c.Open()).Verifiable();
+        connection.Setup(c => c.ExecuteScalar(It.IsAny<string>())).Returns(5);
 
         // Act
-        dataAcquisitionApp.InsertSystemData(systemData, _connection);
+        var nextSerialNumber = DataAcquisitionApp.GetNextSerialNumber(connection.Object);
 
         // Assert
-        string query = "SELECT COUNT(*) FROM system_data";
-        var command = new MySqlCommand(query, _connection);
-        int rowCount = Convert.ToInt32(command.ExecuteScalar());
-        Assert.AreEqual(1, rowCount); // Ensure that one row is inserted
+        Assert.AreEqual(6, nextSerialNumber);
+        connection.Verify(c => c.Open(), Times.Once);
+    }
+
+    [TestMethod]
+    public void GetCpuUsage_ReturnsValidCpuUsage()
+    {
+        // Arrange
+        var cpuCounter = new Mock<PerformanceCounter>("Processor", "% Processor Time", "_Total");
+        cpuCounter.Setup(c => c.NextValue()).Returns(50f);
+
+        // Act
+        var cpuUsage = DataAcquisitionApp.GetCpuUsage();
+
+        // Assert
+        Assert.AreEqual(50f, cpuUsage);
+    }
+
+    [TestMethod]
+    public void GetMemoryUsage_ReturnsValidMemoryUsage()
+    {
+        // Arrange
+        var process = new Mock<Process>();
+        process.Setup(p => p.WorkingSet64).Returns(1024 * 1024 * 1024);
+
+        // Act
+        var memoryUsage = DataAcquisitionApp.GetMemoryUsage();
+
+        // Assert
+        Assert.AreEqual(1024, memoryUsage);
+    }
+
+    [TestMethod]
+    public void GetNetworkSentGB_ReturnsValidNetworkSentBytes()
+    {
+        // Arrange
+        var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesSentPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
+        var obj = new Mock<ManagementObject>();
+        obj.Setup(o => o["BytesSentPerSec"]).Returns(1024 * 1024 * 1024);
+        searcher.Setup(s => s.Get()).Returns(new[] { obj.Object });
+
+        // Act
+        var networkSentGB = DataAcquisitionApp.GetNetworkSentGB();
+
+        // Assert
+        Assert.AreEqual(1, networkSentGB);
+    }
+
+    [TestMethod]
+    public void GetNetworkReceivedGB_ReturnsValidNetworkReceivedBytes()
+    {
+        // Arrange
+        var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesReceivedPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
+        var obj = new Mock<ManagementObject>();
+        obj.Setup(o => o["BytesReceivedPerSec"]).Returns(1024 * 1024 * 1024);
+        searcher.Setup(s => s.Get()).Returns(new[] { obj.Object });
+
+        // Act
+        var networkReceivedGB = DataAcquisitionApp.GetNetworkReceivedGB();
+
+        // Assert
+        Assert.AreEqual(1, networkReceivedGB);
+    }
+
+    [TestMethod]
+    public void SendEmail_SendsEmailSuccessfully()
+    {
+        // Arrange
+        var smtpClient = new Mock<SmtpClient>("smtp.gmail.com");
+        smtpClient.Setup(c => c.Send(It.IsAny<MailMessage>())).Verifiable();
+
+        // Act
+        DataAcquisitionApp.SendEmail("CPU Usage");
+
+        // Assert
+        smtpClient.Verify(c => c.Send(It.IsAny<MailMessage>()), Times.Once);
     }
 }

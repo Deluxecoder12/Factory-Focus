@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci-testing
   pull_request:
     branches:
       - main
@@ -13,6 +14,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build project
-        working-directory: src
-        run: dotnet build
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+          
+      - name: Restore dependencies
+        run: dotnet restore Tests/Tests.csproj
+        
+      - name: Build
+        run: dotnet build --configuration Release Tests/Tests.csproj

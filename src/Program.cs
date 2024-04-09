@@ -6,9 +6,9 @@ using System.Net;
 using System.Net.Mail;
 using MySql.Data.MySqlClient;
 
-class DataAcquisitionApp
+public class DataAcquisitionApp
 {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
         DotNetEnv.Env.Load(@"..\server.env");
         string insertQuery = "INSERT INTO system_data (SN, Timestamp, Device_Name, `Battery (%)`, `CPU_Usage (%)`, `Memory_Usage (MB)`, " +
@@ -116,7 +116,7 @@ class DataAcquisitionApp
         }
     }
 
-    static int GetNextSerialNumber(MySqlConnection connection)
+    public static int GetNextSerialNumber(MySqlConnection connection)
     {
         int SerialNumber = 1; // Default value if no records exist yet
 
@@ -132,19 +132,19 @@ class DataAcquisitionApp
         return SerialNumber;
     }
 
-    static float GetCpuUsage()
+    public static float GetCpuUsage()
     {
         PerformanceCounter cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
         return cpuCounter.NextValue();
     }
 
-    static long GetMemoryUsage()
+    public static long GetMemoryUsage()
     {
         Process currentProcess = Process.GetCurrentProcess();
         return currentProcess.WorkingSet64 / (1024 * 1024);
     }
 
-    static double GetNetworkSentGB()
+    public static double GetNetworkSentGB()
     {
         // More robust solutions might involve monitoring specific network adapters.
         ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT BytesSentPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
@@ -156,7 +156,7 @@ class DataAcquisitionApp
         return bytesSent;
     }
 
-    static double GetNetworkReceivedGB()
+    public static double GetNetworkReceivedGB()
     {
         // Similar approach as GetNetworkSentBytes for received bytes
         ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT BytesReceivedPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
@@ -168,7 +168,7 @@ class DataAcquisitionApp
         return bytesReceived;
     }
 
-    static MySqlConnection GetConnection()
+    public static MySqlConnection GetConnection()
     {
         string DB_SERVER = DotNetEnv.Env.GetString("DB_SERVER");
         string DB_NAME = DotNetEnv.Env.GetString("DB_NAME");
@@ -191,7 +191,7 @@ class DataAcquisitionApp
         return connection;
     }
 
-    static void CheckAndTriggerAlert(List<float> performanceData)
+    public static void CheckAndTriggerAlert(List<float> performanceData)
     {
         const float MinBatteryPercentage = 40; // in percentage (Arbitrary value for checking)
         const float MaxCpuUtilization = 80; // in percentage
@@ -228,14 +228,14 @@ class DataAcquisitionApp
         }
     }
 
-    static void TriggerAlert(string metric)
+    public static void TriggerAlert(string metric)
     {
         // Trigger alert
         Console.WriteLine($"ALERT: {metric} threshold exceeded!");
         SendEmail(metric);
     }
 
-    static void SendEmail(string metric)
+    public static void SendEmail(string metric)
     {
         try
         {

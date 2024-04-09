@@ -8,99 +8,96 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MySql.Data.MySqlClient;
 
-namespace FactoryFocus.TestClass
+[TestClass]
+public class DataAcquisitionAppTests
 {
-    [TestClass]
-    public class DataAcquisitionAppTests
+    [TestMethod]
+    public void GetNextSerialNumber_ReturnsNextAvailableSerialNumber()
     {
-        [TestMethod]
-        public void GetNextSerialNumber_ReturnsNextAvailableSerialNumber()
-        {
-            // Arrange
-            var connection = new Mock<MySqlConnection>();
-            connection.Setup(c => c.Open()).Verifiable();
-            connection.Setup(c => c.ExecuteScalar(It.IsAny<string>())).Returns(5);
+        // Arrange
+        var connection = new Mock<MySqlConnection>();
+        connection.Setup(c => c.Open()).Verifiable();
+        connection.Setup(c => c.ExecuteScalar(It.IsAny<string>())).Returns(5);
 
-            // Act
-            var nextSerialNumber = DataAcquisitionApp.GetNextSerialNumber(connection.Object);
+        // Act
+        var nextSerialNumber = DataAcquisitionApp.GetNextSerialNumber(connection.Object);
 
-            // Assert
-            Assert.AreEqual(6, nextSerialNumber);
-            connection.Verify(c => c.Open(), Times.Once);
-        }
+        // Assert
+        Assert.AreEqual(6, nextSerialNumber);
+        connection.Verify(c => c.Open(), Times.Once);
+    }
 
-        [TestMethod]
-        public void GetCpuUsage_ReturnsValidCpuUsage()
-        {
-            // Arrange
-            var cpuCounter = new Mock<PerformanceCounter>("Processor", "% Processor Time", "_Total");
-            cpuCounter.Setup(c => c.NextValue()).Returns(50f);
+    [TestMethod]
+    public void GetCpuUsage_ReturnsValidCpuUsage()
+    {
+        // Arrange
+        var cpuCounter = new Mock<PerformanceCounter>("Processor", "% Processor Time", "_Total");
+        cpuCounter.Setup(c => c.NextValue()).Returns(50f);
 
-            // Act
-            var cpuUsage = DataAcquisitionApp.GetCpuUsage();
+        // Act
+        var cpuUsage = DataAcquisitionApp.GetCpuUsage();
 
-            // Assert
-            Assert.AreEqual(50f, cpuUsage);
-        }
+        // Assert
+        Assert.AreEqual(50f, cpuUsage);
+    }
 
-        [TestMethod]
-        public void GetMemoryUsage_ReturnsValidMemoryUsage()
-        {
-            // Arrange
-            var process = new Mock<Process>();
-            process.Setup(p => p.WorkingSet64).Returns(1024 * 1024 * 1024);
+    [TestMethod]
+    public void GetMemoryUsage_ReturnsValidMemoryUsage()
+    {
+        // Arrange
+        var process = new Mock<Process>();
+        process.Setup(p => p.WorkingSet64).Returns(1024 * 1024 * 1024);
 
-            // Act
-            var memoryUsage = DataAcquisitionApp.GetMemoryUsage();
+        // Act
+        var memoryUsage = DataAcquisitionApp.GetMemoryUsage();
 
-            // Assert
-            Assert.AreEqual(1024, memoryUsage);
-        }
+        // Assert
+        Assert.AreEqual(1024, memoryUsage);
+    }
 
-        [TestMethod]
-        public void GetNetworkSentGB_ReturnsValidNetworkSentBytes()
-        {
-            // Arrange
-            var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesSentPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
-            var obj = new Mock<ManagementObject>();
-            obj.Setup(o => o["BytesSentPerSec"]).Returns(1024 * 1024 * 1024);
-            searcher.Setup(s => s.Get()).Returns(new[] { obj.Object });
+    [TestMethod]
+    public void GetNetworkSentGB_ReturnsValidNetworkSentBytes()
+    {
+        // Arrange
+        var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesSentPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
+        var obj = new Mock<ManagementObject>();
+        obj.Setup(o => o["BytesSentPerSec"]).Returns(1024 * 1024 * 1024);
+        searcher.Setup(s => s.Get()).Returns(new[] { obj.Object });
 
-            // Act
-            var networkSentGB = DataAcquisitionApp.GetNetworkSentGB();
+        // Act
+        var networkSentGB = DataAcquisitionApp.GetNetworkSentGB();
 
-            // Assert
-            Assert.AreEqual(1, networkSentGB);
-        }
+        // Assert
+        Assert.AreEqual(1, networkSentGB);
+    }
 
-        [TestMethod]
-        public void GetNetworkReceivedGB_ReturnsValidNetworkReceivedBytes()
-        {
-            // Arrange
-            var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesReceivedPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
-            var obj = new Mock<ManagementObject>();
-            obj.Setup(o => o["BytesReceivedPerSec"]).Returns(1024 * 1024 * 1024);
-            searcher.Setup(s => s.Get()).Returns(new[] { obj.Object });
+    [TestMethod]
+    public void GetNetworkReceivedGB_ReturnsValidNetworkReceivedBytes()
+    {
+        // Arrange
+        var searcher = new Mock<ManagementObjectSearcher>("SELECT BytesReceivedPerSec FROM Win32_PerfRawData_Tcpip_NetworkInterface");
+        var obj = new Mock<ManagementObject>();
+        obj.Setup(o => o["BytesReceivedPerSec"]).Returns(1024 * 1024 * 1024);
+        searcher.Setup(s => s.Get()).Returns(new[] { obj.Object });
 
-            // Act
-            var networkReceivedGB = DataAcquisitionApp.GetNetworkReceivedGB();
+        // Act
+        var networkReceivedGB = DataAcquisitionApp.GetNetworkReceivedGB();
 
-            // Assert
-            Assert.AreEqual(1, networkReceivedGB);
-        }
+        // Assert
+        Assert.AreEqual(1, networkReceivedGB);
+    }
 
-        [TestMethod]
-        public void SendEmail_SendsEmailSuccessfully()
-        {
-            // Arrange
-            var smtpClient = new Mock<SmtpClient>("smtp.gmail.com");
-            smtpClient.Setup(c => c.Send(It.IsAny<MailMessage>())).Verifiable();
+    [TestMethod]
+    public void SendEmail_SendsEmailSuccessfully()
+    {
+        // Arrange
+        var smtpClient = new Mock<SmtpClient>("smtp.gmail.com");
+        smtpClient.Setup(c => c.Send(It.IsAny<MailMessage>())).Verifiable();
 
-            // Act
-            DataAcquisitionApp.SendEmail("CPU Usage");
+        // Act
+        DataAcquisitionApp.SendEmail("CPU Usage");
 
-            // Assert
-            smtpClient.Verify(c => c.Send(It.IsAny<MailMessage>()), Times.Once);
-        }
+        // Assert
+        smtpClient.Verify(c => c.Send(It.IsAny<MailMessage>()), Times.Once);
     }
 }

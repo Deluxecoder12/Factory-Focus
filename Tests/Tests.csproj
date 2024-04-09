@@ -14,6 +14,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Factory_Focus.csproj"/>
+    <ProjectReference Include="..\src\Factory_Focus.csproj"/>
   </ItemGroup>
 </Project>

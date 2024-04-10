@@ -5,12 +5,20 @@ using System.Management;
 using System.Net;
 using System.Net.Mail;
 using MySql.Data.MySqlClient;
+using System.Threading;
 
 public class DataAcquisitionApp
 {
+    private static bool isRunning = true;
     public static void Main(string[] args)
     {
+        // Server info
         DotNetEnv.Env.Load(@"..\server.env");
+
+        // Thread for listening to user input
+        Thread listeningThread = new Thread(ReadUserInput);
+        listeningThread.Start();
+
         string insertQuery = "INSERT INTO system_data (SN, Timestamp, Device_Name, `Battery (%)`, `CPU_Usage (%)`, `Memory_Usage (MB)`, " +
                           "`Drive C:\\ Used Space (GB)`, `Drive C:\\ Free Space (GB)`, `Drive D:\\ Used Space (GB)`, `Drive D:\\ Free Space (GB)`, " +
                           "`Network Sent (GB)`, `Network Received (GB)`) " +
@@ -23,10 +31,10 @@ public class DataAcquisitionApp
         MySqlConnection connection = GetConnection();
         int snum = GetNextSerialNumber(connection); // To track data entry num
 
-        // Create a MySqlCommand object
+        // MySqlCommand object
         MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
 
-        while (true)
+        while (isRunning)
         {
             List<float> performanceData = new List<float>(); // For storing data to check for trigger
             
@@ -90,9 +98,8 @@ public class DataAcquisitionApp
             double sentGB = GetNetworkSentGB();
             double receivedGB = GetNetworkReceivedGB();
             Console.WriteLine($"Network Activity: Sent - {sentGB} GB, Received - {receivedGB} GB");
-
             Console.WriteLine("------------------------");
-            Console.WriteLine("Press 'q' to exit, any other key to continue...");
+
 
             // Add parameters with collected values
             insertCommand.Parameters.AddWithValue("@networkSentGB", sentGB);
@@ -106,11 +113,7 @@ public class DataAcquisitionApp
             // Check KPI thresholds and trigger alerts
             CheckAlert(performanceData);
 
-            ConsoleKeyInfo keyInfo = Console.ReadKey();
-            if (keyInfo.KeyChar == 'q')
-            {
-                break;
-            }
+            Thread.Sleep(60000);
 
             Console.Clear(); // Clear the console for a cleaner output
         }
@@ -270,6 +273,20 @@ public class DataAcquisitionApp
         catch (Exception ex)
         {
             Console.WriteLine($"Failed to send email: {ex.Message}");
+        }
+    }
+
+    public static void ReadUserInput(){
+        Console.WriteLine("Press 'q' to exit, any other key to continue...");
+        while (true)
+        {
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
+
+            if (keyInfo.KeyChar == 'q')
+            {
+                isRunning = false;
+                break;
+            }
         }
     }
 }

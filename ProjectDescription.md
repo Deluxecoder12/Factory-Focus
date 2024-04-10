@@ -25,7 +25,7 @@ Create dashboards to visualize the collected data and KPIs.
 
 ### CI/CD Pipeline
 
-Implement a CI/CD pipeline using GitHub Actions to automate the build, test, and deployment process.
+Implement a CI/CD pipeline using GitHub Actions to automate the build, test, and integrate processes.
 
 ## Benefits
 

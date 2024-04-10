@@ -104,7 +104,7 @@ public class DataAcquisitionApp
             insertCommand.ExecuteNonQuery();
 
             // Check KPI thresholds and trigger alerts
-            CheckAndTriggerAlert(performanceData);
+            CheckAlert(performanceData);
 
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             if (keyInfo.KeyChar == 'q')
@@ -191,7 +191,7 @@ public class DataAcquisitionApp
         return connection;
     }
 
-    public static void CheckAndTriggerAlert(List<float> performanceData)
+    public static void CheckAlert(List<float> performanceData)
     {
         const float MinBatteryPercentage = 40; // in percentage (Arbitrary value for checking)
         const float MaxCpuUtilization = 80; // in percentage

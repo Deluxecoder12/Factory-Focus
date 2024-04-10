@@ -19,6 +19,7 @@
     <PackageReference Include="DotNetEnv" Version="3.0.0"/>
     <PackageReference Include="System.Net.Mail" Version="1.0.0-rtm-00002"/>
     <PackageReference Include="MSTest" Version="3.3.1"/>
+    <PackageReference Include="System.Data.Common" Version="4.3.0"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\Factory_Focus.csproj"/>

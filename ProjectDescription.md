@@ -1,5 +1,5 @@
 
-# Personal Laptop Performance Monitoring System with C# .NET, SQL, KPI Dev, Grafana, and GitHub Actions
+# Personal Laptop Performance Monitoring System with C# .NET, SQL, KPI Dev, Grafana, and GitHub Actions For Windows
 
 ## Project Goal
 
